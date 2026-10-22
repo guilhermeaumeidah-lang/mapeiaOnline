@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAPEIA 3.12 — Matriz de Avaliação de Plataformas Educacionais e IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,700;0,800;1,500&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root{--ink:#1f2a44;--blue:#24408e;--board:#26433c;--paper:#fbfcf8;--grid:#dde8ee;--line:#e1e7ef;--mut:#5b6784;--hl:#ffe066}
+*{box-sizing:border-box}
+body{margin:0;font-family:Nunito,'Segoe UI',Arial,sans-serif;color:var(--ink);line-height:1.55;background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px}
+h1,h2,h3{font-family:Bitter,Georgia,serif;margin:0 0 8px}
+.hero{background:var(--board);color:#f4f7f2;padding:42px 0 34px;border-bottom:12px solid #8a5a2b;box-shadow:inset 0 0 60px rgba(0,0,0,.28)}
+.hero-inner{max-width:1180px;margin:0 auto;padding:0 20px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.badge{background:rgba(255,255,255,.12);border:1px solid rgba(244,247,242,.4);color:#f4f7f2;padding:4px 14px;border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+.kicker{font-family:Nunito,sans-serif;text-transform:uppercase;letter-spacing:2.5px;font-size:.82rem;font-weight:800;color:var(--hl);margin:0 0 10px}
+.claim{font-family:Nunito,sans-serif;font-weight:500;color:#e9efe7;border-left:3px solid var(--hl);padding-left:16px;max-width:640px;margin:22px 0 0;line-height:1.6;font-size:1.04rem}
+.hero h1{font-size:5.8rem;font-weight:800;letter-spacing:4px;line-height:1;margin:0}
+main{max-width:1180px;margin:0 auto 40px;padding:0 20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin:18px 0;box-shadow:0 2px 6px rgba(31,42,68,.07)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label.f{font-weight:800;font-size:.92rem;display:block}
+input[type=text]{width:100%;padding:11px;margin-top:4px;border:1px solid #c5cee0;border-radius:8px;font:inherit;background:#fdfdff}
+input[type=text]:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+.how{border-left:6px solid var(--hl)}
+.leg{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.leg span{padding:5px 12px;border-radius:999px;color:#fff;font-weight:800;font-size:.86rem}
+.prog{position:sticky;top:58px;z-index:4;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 16px;font-size:.88rem;font-weight:800;display:flex;gap:14px;align-items:center;box-shadow:0 3px 8px rgba(31,42,68,.1);margin:16px 0}
+.prog .bar{flex:1}
+.bar{height:12px;background:#e8edf5;border-radius:99px;overflow:hidden}
+.fill{height:100%;border-radius:99px;transition:width .35s}
+.dim{background:#fff;border:1px solid var(--line);border-left:8px solid var(--c);border-radius:6px 16px 16px 6px;margin:20px 0}
+.dh{display:flex;gap:14px;align-items:center;padding:16px 20px;background:#f6f8fd;border-radius:0 15px 0 0}
+.dh .n{flex:none;width:44px;height:44px;border-radius:12px;background:var(--c);color:#fff;display:grid;place-items:center;font-size:1.4rem}
+.dh h3{font-size:1.08rem;margin:0}
+.q{padding:16px 20px;border-top:1px dashed #cfd7e6}
+.q p{margin:0 0 10px;font-weight:700;max-width:88ch;position:relative}
+.wy{width:24px;height:24px;margin-left:8px;padding:0;border:0;border-radius:50%;background:var(--hl);color:#3b3300;font:800 .82rem Nunito,sans-serif;cursor:help;vertical-align:middle}
+.wy:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.tip{display:none;position:absolute;left:0;top:100%;margin-top:8px;width:min(430px,100%);background:var(--board);color:#f4f7f2;padding:13px 15px;border-radius:10px;border-top:4px solid var(--hl);font-size:.86rem;font-weight:400;line-height:1.5;z-index:20;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.tip b,.tip i{display:block}
+.tip b{color:var(--hl);margin-bottom:4px}
+.tip i{margin-top:8px;font-size:.78rem;opacity:.85}
+.wy:hover+.tip,.wy:focus+.tip{display:block}
+.bl-l{margin-left:auto;font-size:.82rem;font-weight:800;color:var(--blue);text-decoration:none;border:2px solid var(--blue);border-radius:99px;padding:3px 12px;white-space:nowrap;background:#fff}
+.bl-l:hover{background:var(--hl)}
+.lib details{border:1px solid var(--line);border-left:6px solid var(--c);border-radius:6px 12px 12px 6px;margin:10px 0;background:#fff}
+.lib summary{padding:12px 16px;font-weight:800;cursor:pointer}
+.lib .bl{padding:2px 18px 14px}
+.lib h4{margin:12px 0 2px;font-size:.95rem;color:var(--blue)}
+.lib p,.lib ul{margin:4px 0;font-size:.92rem}
+.lib ul{padding-left:20px}
+.intro{border-top:6px solid var(--hl)}
+.intro .three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.intro .three div{background:#f6f8fd;border-radius:10px;padding:12px 14px;font-size:.92rem}
+.intro .three b{display:block;font-family:Bitter,Georgia,serif;margin-bottom:2px}
+.hp{position:relative}
+.calc summary{cursor:pointer;font-weight:800;color:var(--blue);margin-top:12px}
+.calc ul{margin:8px 0;padding-left:20px}
+.calc li{margin:5px 0}
+.obs{display:flex;gap:18px;align-items:center;background:var(--board);color:#f4f7f2;border-radius:14px;border-left:8px solid var(--hl);padding:20px 22px;margin:18px 0}
+.obs .obsq{margin:0 0 6px;font-family:Bitter,Georgia,serif;font-weight:800;font-size:1.35rem;line-height:1.3}
+.barchart{margin:18px 0 6px;display:flex;flex-direction:column;gap:11px}
+.bc-row{display:grid;grid-template-columns:230px 1fr;gap:10px;align-items:center}
+.bc-label{font-size:.85rem;font-weight:800;line-height:1.25}
+.bc-track{position:relative;height:20px;border-radius:6px;background-color:#eef1f7;background-image:linear-gradient(90deg,transparent 24.9%,#dbe0eb 25%,transparent 25.1%,transparent 49.9%,#dbe0eb 50%,transparent 50.1%,transparent 74.9%,#dbe0eb 75%,transparent 75.1%)}
+.bc-fill{height:100%;border-radius:6px;transition:width .35s}
+.bc-track.nodata{background-image:repeating-linear-gradient(45deg,#eef1f7,#eef1f7 6px,#e3e6ee 6px,#e3e6ee 12px)}
+.bc-scalerow .bc-label{visibility:hidden}
+.bc-scale{position:relative;height:28px;font-size:.72rem;color:var(--mut);font-weight:400}
+.bc-scale span{position:absolute;top:0;transform:translateX(-50%)}
+.bc-scale span:first-child{transform:translateX(0)}
+.bc-scale span:last-child{transform:translateX(-100%)}
+.bc-scale-grad{position:absolute;left:0;right:0;bottom:2px;height:6px;border-radius:3px;background:linear-gradient(90deg,#d64545 0%,#f08a24 40%,#d9b400 60%,#2e9e5b 80%,#2e9e5b 100%)}
+.bc-tick{cursor:help;font-weight:400;border-bottom:2px dotted var(--mut)}
+.bc-tick::after{content:attr(data-leg);display:none;position:absolute;bottom:30px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--tc,#5c6270);color:#fff;font-weight:800;font-size:.78rem;padding:5px 12px;border-radius:999px;box-shadow:0 3px 8px rgba(0,0,0,.2);z-index:5}
+.bc-tick:hover::after,.bc-tick:focus::after{display:block}
+.prio{border:1px solid var(--line);border-left:6px solid var(--hl);border-radius:6px 12px 12px 6px;margin:20px 0;background:#fff}
+.prio summary{padding:14px 18px;font-weight:800;cursor:pointer;font-size:1.02rem;list-style:revert}
+.prio-body{padding:2px 18px 14px}
+.video-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;margin:10px 0}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.obs p.sub{margin:0;font-size:.92rem;opacity:.92}
+.obs-icon{flex:none;width:64px;height:64px;border-radius:50%;background:var(--hl);color:#2a2a2a;display:grid;place-items:center;font-size:1.8rem;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.obs-icon:hover{filter:brightness(1.08)}
+.divider{display:flex;align-items:center;gap:16px;margin:34px 0 14px;color:var(--ink);font-weight:800;font-family:Bitter,Georgia,serif;font-size:1.6rem;letter-spacing:.2px}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+.foot a{color:var(--hl)}
+.foot-logos{display:flex;gap:14px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.foot-logos img{height:52px;width:auto;background:#fff;border-radius:6px;padding:5px}
+.foot{background:var(--board);color:#e7eee9;padding:26px 18px;border-top:12px solid #8a5a2b;font-size:.88rem}
+.foot div{max-width:900px;margin:0 auto}
+.foot p{margin:6px 0}
+.row{display:flex;flex-wrap:wrap;gap:12px 26px;align-items:flex-start}
+.five{display:flex;gap:8px}
+.o{position:relative;cursor:pointer}
+.o input{position:absolute;opacity:0}
+.o span{display:grid;place-items:center;min-width:48px;height:48px;border-radius:12px;border:2px solid #cfd7e6;background:#f8faff;font-weight:800;font-size:1.05rem;transition:.15s}
+.o:hover span{border-color:var(--oc,#8a94aa)}
+.o input:checked+span{background:var(--oc,#5b6784);border-color:var(--oc,#5b6784);color:#fff;transform:scale(1.08)}
+.o input:focus-visible+span{outline:3px solid var(--blue);outline-offset:2px}
+.nk span{padding:0 14px;font-size:.88rem}
+.ends{display:flex;justify-content:space-between;gap:10px;font-size:.78rem;color:var(--mut);margin-top:5px}
+.btn{padding:13px 22px;border:0;border-radius:999px;background:var(--blue);color:#fff;font:inherit;font-weight:800;cursor:pointer;margin:0 8px 8px 0}
+.btn.sec{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+canvas{width:100%;max-width:520px;height:auto}
+.it{margin:14px 0}
+.it .top{display:flex;justify-content:space-between;gap:10px;font-weight:800;font-size:.95rem;margin-bottom:4px}
+.it small{color:var(--mut);font-weight:700}
+.tag{color:#fff;padding:1px 10px;border-radius:99px;white-space:nowrap}
+.al{padding:12px 14px;border-radius:8px;margin:10px 0;border-left:6px solid var(--c);background:#fafbfd}
+.mut{color:var(--mut)}
+.refl{background:#fffbe3;border:2px dashed #e0c94a;border-radius:10px;padding:6px 20px}
+.tabs{position:sticky;top:0;z-index:6;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;background:rgba(251,252,248,.96);backdrop-filter:blur(2px);padding:10px 16px;border-bottom:1px solid var(--line);transition:transform .25s ease}
+.tabs.hide{transform:translateY(-120%)}
+.tabs-toggle{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:9;background:var(--blue);color:#fff;border:0;border-radius:999px;padding:8px 16px;font:inherit;font-weight:800;font-size:.82rem;box-shadow:0 4px 12px rgba(31,42,68,.25);cursor:pointer;display:none}
+.tab-btn{padding:9px 16px;border:2px solid var(--line);background:#fff;border-radius:999px;font:inherit;font-weight:800;font-size:.9rem;color:var(--ink);cursor:pointer}
+.tab-btn:hover{border-color:var(--blue)}
+.tab-btn[aria-selected="true"]{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tab-btn:focus-visible{outline:3px solid var(--hl);outline-offset:2px}
+.tabpanel{display:none}
+.tabpanel.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(max-width:750px){.intro .three{grid-template-columns:1fr}.obs{flex-direction:column;align-items:flex-start}.grid,.res{grid-template-columns:1fr}.hero h1{font-size:3.6rem;letter-spacing:2px}.claim{border-left-width:2px;padding-left:12px;font-size:.95rem}.tabs{gap:6px;padding:8px 10px}.tab-btn{padding:8px 12px;font-size:.82rem}.prog{top:50px}.bc-row{grid-template-columns:1fr}.bc-scalerow .bc-label{display:none}main{padding-bottom:90px}.dh{flex-wrap:wrap}.bl-l{margin-left:0}.tabs-toggle{top:auto;bottom:16px}}
+@media print{body{background:#fff}.hero,.tabs,.noprint{display:none}.tabpanel{display:block !important}#tab-inicio,#tab-plataformizacao,#tab-como,#tab-refletir,#tab-biblioteca{display:none !important}.card{box-shadow:none;break-inside:avoid}}
+
+</style>
+</head>
+<body>
+
+<header class="hero">
+<div class="hero-inner">
+  <div class="badges"><span class="badge">Produto educacional</span><span class="badge">Protótipo · Mestrado Profissional em Educação</span></div>
+  <p class="kicker">Matriz de Avaliação de Plataformas Educacionais e Inteligência Artificial</p>
+  <h1>MAPEIA</h1>
+  <p class="claim">Um instrumento para analisar criticamente plataformas digitais e recursos de IA empregados em processos pedagógicos e avaliativos.</p>
+</div>
+</header>
+
+<nav class="tabs noprint" role="tablist" aria-label="Seções do MAPEIA">
+  <button type="button" class="tab-btn" data-tab="plataformizacao" role="tab" aria-selected="true">🕸️ Plataformização</button>
+  <button type="button" class="tab-btn" data-tab="inicio" role="tab" aria-selected="false">🏠 Início</button>
+  <button type="button" class="tab-btn" data-tab="como" role="tab" aria-selected="false">🧭 Como funciona</button>
+  <button type="button" class="tab-btn" data-tab="refletir" role="tab" aria-selected="false">📝 Refletir</button>
+  <button type="button" class="tab-btn" data-tab="perfil" role="tab" aria-selected="false">📊 Perfil</button>
+  <button type="button" class="tab-btn" data-tab="biblioteca" role="tab" aria-selected="false">📚 Biblioteca</button>
+</nav>
+
+<button type="button" id="tabsToggle" class="tabs-toggle noprint" onclick="showTabsBar()">☰ Seções</button>
+
+<main>
+  <section class="tabpanel" id="tab-inicio">
+  <section class="card intro">
+    <h2>Qual o poder de fazer boas perguntas?</h2>
+    <p>Plataformas digitais e ferramentas de inteligência artificial hoje fazem parte do planejamento, da avaliação e do acompanhamento nas escolas. Elas prometem eficiência, mas a literatura acadêmica indica várias questões sensíveis que devem ser pensadas por nós. Quem decide? Quais dados circulam? Como o trabalho docente se organiza? O MAPEIA é um produto educacional de mestrado profissional que ajuda professores, gestoras, gestores e equipes pedagógicas a examinar criticamente plataformas e a plataformização da educação através de perguntas-chave que nos levam a um processo mais profundo de reflexão, indo além do mero uso técnico das plataformas.</p>
+    <div class="three">
+      <div><b>1. Responda</b>40 perguntas em 10 dimensões, numa escala de 1 a 5. Não é preciso ser especialista.</div>
+      <div><b>2. Compreenda</b>O perfil visual mostra onde a plataforma requer um olhar mais atento, sem reduzir tudo a uma nota.</div>
+      <div><b>3. Aprofunde</b>Cada pergunta explica seu porquê, e a Biblioteca reúne leituras e documentos para ir além.</div>
+    </div>
+    <p>O MAPEIA não certifica plataformas nem decide por você: ele organiza a reflexão para que a decisão continue sendo sua.</p>
+    <button type="button" class="btn" onclick="showTab('refletir')" style="margin-top:8px">Começar a reflexão</button>
+    <button type="button" class="btn sec" onclick="showTab('como')" style="margin-top:8px">Ver como funciona</button>
+  </section>
+  </section>
+
+  <section class="tabpanel active" id="tab-plataformizacao">
+  <section class="card">
+    <h2>Você sabe o que é Plataformização?</h2>
+    <p>Plataformização é o processo pelo qual infraestruturas digitais privadas passam a organizar atividades que antes eram conduzidas de outras formas pela escola: planejamento de aulas, avaliação, comunicação, gestão de dados e até decisões pedagógicas. Aos poucos, a plataforma deixa de ser apenas uma ferramenta de apoio e passa a estruturar o próprio processo educacional, define fluxos de trabalho, categoriza estudantes, gera métricas e concentra dados que antes ficavam distribuídos entre diferentes agentes da escola. A plataformização não é neutra, promove a precarização do trabalho docente e a alienação da atividade de estudo. <a href="https://doi.org/10.1590/ES.296486" target="_blank" rel="noopener">Meireles, Adão (2025)</a></p>
+    <p>A tecnologia digital por si só não é um problema, mas quando percebemos aspectos como decisões pedagógicas passando a seguir a lógica da ferramenta e não o contrário, dados de estudantes e professores se concentrando em poucos fornecedores privados, o trabalho docente ganhando novas tarefas de alimentação e checagem de sistemas, é necessário refletir sobre o assunto.</p>
+    <p>Pensar sobre estas questões nos levam a diversas perguntas e algumas delas deram origem ao MAPEIA e ajudam a orientam as dez dimensões do instrumento: Quem decide o que a plataforma prioriza? Que dados ela coleta, e para quem eles servem? Que parte do trabalho docente ela reorganiza, e com que consequências?</p>
+  </section>
+
+  <section class="card">
+    <h3 style="margin-top:0">Assista</h3>
+    <p class="mut">Vozes da educação: plataformização × autonomia docente — vídeo da APP Sindicato.</p>
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/o4EQB11hAnU" title="Vozes da educação: plataformização x autonomia docente" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <p class="mut" style="margin-top:6px;font-size:.86rem">Se o vídeo não aparecer aqui, <a href="https://youtu.be/o4EQB11hAnU" target="_blank" rel="noopener">assista diretamente no YouTube</a>.</p>
+  </section>
+
+  <div class="divider"><span>Perguntas que provocam</span></div>
+
+  <section class="obs noprint">
+    <a class="obs-icon" href="https://laboratorios.ufpr.br/tecnosferalab/plataformizacao-do-ensino-no-parana/" target="_blank" rel="noopener" aria-label="Acessar o Observatório da plataformização do ensino no Paraná (abre em nova aba)" title="Observatório da plataformização do ensino no Paraná (UFPR)">🔭</a>
+    <div>
+      <p class="obsq">Você sabe quanto dinheiro o Governo do Paraná tem gasto com plataformização?</p>
+      <p class="sub">O Observatório da plataformização do ensino no Paraná (Tecnosfera/UFPR) reúne dados e pesquisas públicas sobre o tema. <a href="https://laboratorios.ufpr.br/tecnosferalab/plataformizacao-do-ensino-no-parana/" target="_blank" rel="noopener" style="color:var(--hl);font-weight:800;text-decoration:underline">Veja aqui</a>.</p>
+    </div>
+  </section>
+
+  <section class="obs noprint">
+    <a class="obs-icon" href="https://www.administracao.pr.gov.br/Escola-de-Gestao/Pagina/SEED-CURSOS-DE-GESTAO-DA-CARREIRA-ESTAGIO-PROBATORIO" target="_blank" rel="noopener" aria-label="Acessar a página da Escola de Gestão sobre os cursos do estágio probatório (abre em nova aba)" title="Escola de Gestão — cursos do estágio probatório (Governo do Paraná)">🎓</a>
+    <div>
+      <p class="obsq">O que você acha sobre a obrigatoriedade em realizar cursos para aprender a usar recursos digitais de empresas privadas no Governo do Paraná?</p>
+      <p class="sub">A Escola de Gestão do Governo do Paraná lista os cursos de gestão da carreira exigidos no estágio probatório. <a href="https://www.administracao.pr.gov.br/Escola-de-Gestao/Pagina/SEED-CURSOS-DE-GESTAO-DA-CARREIRA-ESTAGIO-PROBATORIO" target="_blank" rel="noopener" style="color:var(--hl);font-weight:800;text-decoration:underline">Veja aqui</a>.</p>
+    </div>
+  </section>
+
+  <section class="obs noprint">
+    <a class="obs-icon" href="https://appsindicato.org.br/mais-de-70-dosas-professoresas-da-rede-estadual-relatam-adoecimento-pelo-uso-de-plataformas-digitais-revela-pesquisa/" target="_blank" rel="noopener" aria-label="Acessar a matéria do APP Sindicato sobre adoecimento e burnout (abre em nova aba)" title="APP Sindicato — adoecimento por uso de plataformas digitais">🧠</a>
+    <div>
+      <p class="obsq">Você sabe quais são os motivos alegados por mais de 70% dos professores da rede pública paranaense ao associarem o uso das plataformas digitais ao adoecimento psicológico e ao burnout?</p>
+      <p class="sub">Pesquisa do APP Sindicato ouviu professoras e professores da rede estadual sobre o tema. <a href="https://appsindicato.org.br/mais-de-70-dosas-professoresas-da-rede-estadual-relatam-adoecimento-pelo-uso-de-plataformas-digitais-revela-pesquisa/" target="_blank" rel="noopener" style="color:var(--hl);font-weight:800;text-decoration:underline">Veja aqui</a>.</p>
+    </div>
+  </section>
+
+  <section class="obs noprint">
+    <a class="obs-icon" href="https://www2.uepg.br/periodico/plataformas-digitais-de-ensino-geram-conflitos-entre-professores-e-governo-do-parana/" target="_blank" rel="noopener" aria-label="Acessar a matéria da UEPG sobre ranqueamento de colégios (abre em nova aba)" title="UEPG — plataformas digitais e conflitos entre professores e Governo do Paraná">📊</a>
+    <div>
+      <p class="obsq">Será que o ranqueamento de colégios públicos com base em acessos a aplicativos constrange gestores e professores a priorizar o cumprimento de indicadores em detrimento de projetos humanos e sociais?</p>
+      <p class="sub">Matéria da UEPG discute os conflitos entre professores e o Governo do Paraná em torno das plataformas digitais de ensino. <a href="https://www2.uepg.br/periodico/plataformas-digitais-de-ensino-geram-conflitos-entre-professores-e-governo-do-parana/" target="_blank" rel="noopener" style="color:var(--hl);font-weight:800;text-decoration:underline">Veja aqui</a>.</p>
+    </div>
+  </section>
+
+  <section class="obs noprint">
+    <a class="obs-icon" href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener" aria-label="Acessar o texto da LGPD (abre em nova aba)" title="LGPD — Lei nº 13.709/2018">⚖️</a>
+    <div>
+      <p class="obsq">Será que as plataformas das empresas privadas estão seguindo o que o artigo 6º da Lei Geral de Proteção de Dados Pessoais (LGPD) exige?</p>
+      <p class="sub">Consulte o texto integral da LGPD (Lei nº 13.709/2018), inclusive o artigo 6º, que trata dos princípios do tratamento de dados. <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener" style="color:var(--hl);font-weight:800;text-decoration:underline">Veja aqui</a>.</p>
+    </div>
+  </section>
+  </section>
+
+  <section class="tabpanel" id="tab-como">
+  <section class="card how">
+    <h2>🧭 Como responder</h2>
+    <p>Para cada pergunta, escolha o número que melhor descreve a plataforma. Quanto menor o valor, menos adequada é a situação; quanto maior, mais adequada. Se você não tiver informação para responder, marque <b>Não sei</b>. Isso também é um dado importante. Em dúvida sobre o motivo de uma pergunta? Passe o mouse (ou toque) no botão <b>?</b> ao lado dela.</p>
+    <div class="leg">
+      <span style="background:#d64545">1 · Nada adequado</span>
+      <span style="background:#f08a24">2 · Pouco adequado</span>
+      <span style="background:#d99a00">3 · Parcialmente adequado</span>
+      <span style="background:#7cb82f">4 · Bastante adequado</span>
+      <span style="background:#2e9e5b">5 · Totalmente adequado</span>
+    </div>
+    <details class="calc">
+      <summary>Como o MAPEIA calcula o perfil?</summary>
+      <ul>
+        <li><b>Pontuação por dimensão.</b> Cada resposta vale de 1 a 5. O MAPEIA faz a média das respostas de cada dimensão e converte para uma escala de 0 a 100, multiplicando por 20. Exemplo: respostas 4, 5, 3 e 4 dão média 4, ou seja, 80/100.</li>
+        <li><b>Faixas.</b> De 80 a 100: condições favoráveis. De 60 a 79: requer atenção. De 40 a 59: requer análise aprofundada. Abaixo de 40: ponto crítico.</li>
+        <li><b>“Não sei”.</b> Essa resposta não entra na média, mas conta como sinal: duas ou mais em uma dimensão geram um alerta de informação insuficiente. Se uma dimensão não tiver nenhuma resposta de 1 a 5, aparece como “sem dados”.</li>
+        <li><b>Sem nota geral.</b> O MAPEIA não calcula uma média das 40 respostas, porque ela poderia esconder dimensões críticas atrás de outras muito bem avaliadas. Cada dimensão é lida por si.</li>
+        <li><b>Pontos prioritários.</b> Aparecem as dimensões abaixo de 60 ou com duas ou mais respostas “Não sei”, das mais baixas para as mais altas.</li>
+      </ul>
+    </details>
+  </section>
+  </section>
+
+  <section class="tabpanel" id="tab-refletir">
+  <section class="card" id="ident">
+    <h2 class="hp">📝 Identificação<button type="button" class="wy" aria-label="Sobre os dados desta etapa">?</button><span class="tip" role="tooltip" style="font-family:Nunito,sans-serif;font-size:.86rem"><b>Seus dados ficam com você</b>Estes campos servem apenas para dar um título ao relatório gerado nesta tela. O MAPEIA não coleta, não envia e não grava nenhuma informação: tudo permanece no seu navegador e desaparece quando você fecha ou recarrega a página.</span></h2>
+    <div class="grid">
+      <label class="f">Plataforma<input type="text" id="name" placeholder="Nome da plataforma"></label>
+      <label class="f">Área ou disciplina<input type="text" id="area" placeholder="Ex.: Língua Portuguesa"></label>
+      <label class="f">Finalidade de uso<input type="text" id="purpose" placeholder="Ex.: avaliação e feedback"></label>
+      <label class="f">Público<input type="text" id="aud" placeholder="Ex.: Ensino Médio"></label>
+    </div>
+  </section>
+
+    <div class="prog noprint"><span id="pt">0 de 40 respondidas</span><div class="bar"><div class="fill" id="pf" style="width:0;background:#24408e"></div></div></div>
+  <div id="qs"></div>
+
+
+  <section class="card noprint">
+    <button class="btn" onclick="calc()">Gerar perfil MAPEIA</button>
+    <button class="btn sec" onclick="if(confirm('Limpar todas as respostas?'))location.reload()">Recomeçar</button>
+  </section>
+  </section>
+
+  <section class="tabpanel" id="tab-perfil">
+  <section id="out" class="card">
+    <h2>📊 Perfil</h2>
+    <p>Responda às questões e clique em “Gerar perfil MAPEIA” para ver o perfil multidimensional.</p>
+  </section>
+  <section class="card noprint">
+    <button class="btn sec" onclick="print()">Imprimir ou salvar em PDF</button>
+  </section>
+  </section>
+
+  <section class="tabpanel" id="tab-biblioteca">
+  <section class="card" id="biblioteca">
+    <h2>📚 Biblioteca MAPEIA</h2>
+    <p>Cada dimensão reúne três tipos de conteúdo: o <b>critério</b>, isto é, o que o MAPEIA te ajuda a verificar; a <b>fundamentação</b>, com autores e documentos que justificam esse critério; e o <b>material de aprofundamento</b>, para quem quiser explorar um pouco mais o tema.</p>
+    <div class="lib" id="lib"></div>
+  </section>
+  </section>
+</main>
+<footer class="foot"><div>
+  <div class="foot-logos">
+    <img src="https://uenp.edu.br/images/institucional/logo/pped-logo.jpg" alt="Logotipo do Programa de Pós-Graduação em Educação (PPEd/UENP)">
+    <img src="https://uenp.edu.br/images/institucional/logo/logo-uenp.jpg" alt="Logotipo da Universidade Estadual do Norte do Paraná (UENP)">
+  </div>
+  <p><b>MAPEIA, protótipo 3.12</b> (versão em desenvolvimento, setembro de 2026)</p>
+  <p>Produto educacional vinculado à dissertação “Avaliação educacional e inteligência artificial: a plataformização dos processos avaliativos em Língua Portuguesa no Paraná”, do Mestrado Profissional em Educação Básica (Programa de Pós-Graduação em Educação, UENP, Campus Jacarezinho). As perguntas e justificativas derivam da análise documental e da revisão de literatura da pesquisa. O instrumento integrará um portal de orientação crítica a profissionais da educação sobre a plataformização. Seus resultados não certificam plataformas nem substituem o julgamento docente.</p>
+</div></footer>
+
+<script>
+
+const D=[
+['🎯','Intencionalidade pedagógica',['Existe uma finalidade pedagógica claramente definida para o uso da plataforma?','A plataforma responde a uma necessidade pedagógica previamente identificada?','A ferramenta permanece subordinada aos objetivos pedagógicos?','O uso é adequado ao contexto da escola e dos estudantes?']],
+['📝','Concepção de avaliação e aprendizagem',['A plataforma permite acompanhar o processo de aprendizagem, e não apenas resultados finais?','Os resultados podem ser interpretados considerando o contexto dos estudantes?','Os resultados fornecem informações para intervenções pedagógicas?','A plataforma evita reduzir a avaliação a notas, classificações ou indicadores?']],
+['🧑‍🏫','Autonomia e responsabilidade docente',['O professor pode revisar resultados produzidos automaticamente?','O professor pode contestar resultados inadequados?','A decisão pedagógica final permanece sob responsabilidade do professor?','O professor pode deixar de utilizar um resultado automatizado inadequado?']],
+['🔍','Transparência e explicabilidade',['A plataforma informa como seus recursos automatizados funcionam?','Os critérios de avaliação ou classificação são apresentados de forma compreensível?','A plataforma informa quando um resultado foi produzido ou influenciado por IA?','A plataforma apresenta suas limitações?']],
+['🔒','Proteção e governança dos dados',['A plataforma informa quais dados dos estudantes são coletados?','A finalidade da coleta e utilização dos dados é clara?','É informado com quem os dados podem ser compartilhados?','Há informações suficientes sobre a proteção dos dados?']],
+['✅','Confiabilidade e supervisão humana',['Os resultados podem ser conferidos pelo professor?','É possível identificar e corrigir resultados inadequados?','O professor consegue acrescentar informações não consideradas pelo sistema?','Resultados automatizados são submetidos à análise humana antes de decisões relevantes?']],
+['🤝','Inclusão, equidade e acessibilidade',['A plataforma oferece recursos adequados para diferentes necessidades de acesso?','O uso considera diferentes condições de acesso dos estudantes?','Existem mecanismos para identificar possíveis vieses?','A plataforma permite considerar diferentes contextos dos estudantes?']],
+['⏳','Condições de trabalho docente',['O uso é compatível com o tempo disponível para o trabalho docente?','A plataforma evita criar volume excessivo de novas tarefas?','Os professores recebem formação suficiente?','Existe suporte técnico e pedagógico?']],
+['🕸️','Dependência e plataformização',['O processo pode continuar sem depender exclusivamente da plataforma?','As decisões pedagógicas prioritárias são definidas pela equipe docente, sem serem induzidas pela plataforma?','Os dados e processos ficam distribuídos, sem excessiva concentração em uma única plataforma?','A ferramenta apoia sem substituir decisões que dependem de julgamento pedagógico?']],
+['📦','Portabilidade e sustentabilidade',['Os dados podem ser exportados em formatos utilizáveis?','Os registros podem ser preservados caso a plataforma deixe de ser utilizada?','A escola consegue substituir a plataforma sem perder seu histórico?','A plataforma consegue trabalhar com outros sistemas ou ferramentas?']]
+];
+const COL=['#2b6cb0','#805ad5','#c0397f','#d2691e','#2f855a','#0987a0','#b7791f','#5a67d8','#9b2c7a','#38a169'];
+const SC={1:'#d64545',2:'#f08a24',3:'#d99a00',4:'#7cb82f',5:'#2e9e5b'};
+const T=40;
+const B=[["Verificar se a finalidade pedagógica vem antes da ferramenta e se o uso responde a uma necessidade da escola e dos estudantes.", "Brasil (2024), Referencial de Saberes Digitais Docentes; auditoria do TCE-PR (Paraná, 2025), que questionou a participação docente na escolha das plataformas.", [["Brasil (2024). Saberes digitais docentes. MEC.", ""], ["TCE-PR (2025). Fiscalização sobre a contratação e utilização de ferramentas educacionais (plataformas digitais) nas escolas do Estado do Paraná.", "https://www1.tce.pr.gov.br/data/files/00/67/3C/34/726479106AFF5379249419A8/00392064.pdf"], ["Brasil (2026). Inteligência Artificial na Educação Básica: Caminhos para o Currículo e a Prática Docente. MEC.", ""]]], ["Verificar se a plataforma acompanha o processo de aprendizagem, considera o contexto e evita reduzir a avaliação a notas e indicadores.", "Dourado (2007), Freitas (2012) e Afonso (2009): a qualidade educacional redefinida como produto mensurável e comparável.", [["Dourado (2007). Políticas e gestão da educação básica no Brasil: limites e perspectivas.", "http://www.scielo.br/pdf/es/v28n100/a1428100.pdf"], ["Freitas (2012). Os reformadores empresariais da educação.", "https://doi.org/10.1590/S0101-73302012000200004"], ["Afonso (2009). Nem tudo o que conta em educação é mensurável ou comparável.", ""]]], ["Verificar se o professor pode revisar, contestar, decidir e recusar resultados automatizados, evitando a responsabilidade sem controle.", "Unesco (2025, p. 40) sobre avaliações assistidas por IA com responsabilidade humana; assimetria entre responsabilidade e controle discutida na dissertação, com Afonso (2013) e Silva (2026).", [["Unesco (2025). Marco referencial de competências em IA para professores.", ""], ["Afonso (2013). Mudanças no Estado-avaliador.", "https://doi.org/10.1590/S1413-24782013000200002"], ["Almeida; Almeida (2026). Apropriação crítica de tecnologias de avaliação. Devir Educação.", ""]]], ["Verificar se a plataforma explica seu funcionamento, seus critérios, a participação da IA e suas limitações.", "Williamson e Hogan (2020) sobre algoritmos privados que não divulgam seus critérios; Noble (2018) sobre vieses em algoritmos tidos como neutros.", [["Williamson; Hogan (2020). Commercialisation and privatisation in/of education in the context of Covid-19. Education International.", ""], ["Brasil (2026). Referencial para o Uso e Desenvolvimento Responsáveis de IA na Educação. MEC.", ""], ["Projeto de Lei nº 2.338/2023 (regulação da inteligência artificial).", ""]]], ["Verificar se a plataforma informa quais dados coleta, para quê, com quem compartilha e como os protege.", "LGPD (Lei 13.709/2018) e ECA Digital (Lei 15.211/2025), tratadas na dissertação como referências transversais; Silva (2026) sobre extração de valor dos dados escolares.", [["Brasil (2018). Lei Geral de Proteção de Dados Pessoais (Lei 13.709).", ""], ["Brasil (2025). Estatuto Digital da Criança e do Adolescente (Lei 15.211).", ""], ["Almeida; Fernandes Júnior; Fernandes (2025). Cartografia da inteligência artificial e da proteção de dados na educação básica.", "https://doi.org/10.1590/ES.300372"]]], ["Verificar se o professor consegue conferir, corrigir e complementar resultados e se há análise humana antes de decisões relevantes.", "Unesco (2025) sobre o risco de a IA usurpar a responsabilidade humana; Mossin et al. (2024) e Noble (2018) sobre vieses.", [["Unesco (2025). Marco referencial de competências em IA para professores.", ""], ["Parecer CNE/CP nº 15/2026: diretrizes orientadoras para o uso da IA na educação brasileira.", ""], ["Brasil (2026). Referencial para o Uso e Desenvolvimento Responsáveis de IA na Educação. MEC.", ""]]], ["Verificar acessibilidade, equidade de acesso, mecanismos contra vieses e consideração dos contextos dos estudantes.", "Mossin et al. (2024) e Farias e Gusmão (2023): vieses nos dados e relação entre resultados e condições socioeconômicas; Passone e Vasconcelos (2024).", [["Cetic.br (2025). TIC Educação 2024.", "https://cetic.br/pt/pesquisa/educacao/"], ["Farias; Gusmão; Gusmão (2023). Mineração de dados educacionais: microdados do INEP e desempenho no IDEB.", ""], ["Passone; Vasconcelos (2024). Produção acadêmico-científica sobre IA no campo da educação.", ""]]], ["Verificar se o uso cabe no tempo docente, se evita novas tarefas burocráticas e se há formação e suporte.", "Silva (2026) sobre intensificação do trabalho e docência ubíqua; auditoria do TCE-PR (Paraná, 2025) sobre formação e suporte.", [["Silva (2026). Plataformização da educação, inteligência artificial e os impactos para o trabalho docente.", "https://doi.org/10.23899/9786586746532.7"], ["Filgueiras; Antunes (2020). Plataformas digitais, uberização do trabalho e regulação no capitalismo contemporâneo.", "https://doi.org/10.22409/contracampo.v39i1.38901"], ["Silva (2020). Da uberização à youtuberização: a precarização do trabalho docente em tempos de pandemia.", "https://www.costalima.ufrrj.br/index.php/RTPS/article/view/698"]]], ["Verificar se o processo pedagógico pode continuar sem a plataforma e se ela apoia o trabalho docente sem substituir o julgamento pedagógico.", "Conceito de plataformização da dissertação: infraestruturas digitais que capturam dados e incorporam funções antes exclusivas do julgamento docente; Silva (2026); Selwyn (2016).", [["Silva (2026). Plataformização da educação, inteligência artificial e os impactos para o trabalho docente.", "https://doi.org/10.23899/9786586746532.7"], ["García; Adrião (2023). Privatização da gestão escolar no Brasil: controle digital e interesses corporativos.", "https://revistaseug.ugr.es/index.php/profesorado/article/view/26245"], ["Selwyn (2016). Education and technology: key issues and debates.", ""]]], ["Verificar se a escola consegue exportar dados, preservar registros, trocar de plataforma e integrar outras ferramentas. Critério próprio do MAPEIA, com base teórica ainda em construção.", "Discussão sobre plataformização e privatização da frente tecnológica (Passone e Vasconcelos, 2024; García e Adrião, 2023).", [["Passone; Vasconcelos (2024). Produção acadêmico-científica sobre IA no campo da educação.", ""], ["García; Adrião (2023). Privatização da gestão escolar no Brasil.", "https://revistaseug.ugr.es/index.php/profesorado/article/view/26245"]]]];
+function openBib(i){showTab("biblioteca");const d=document.getElementById("bib"+i);d.open=true;setTimeout(()=>d.scrollIntoView({behavior:"smooth",block:"start"}),60)}
+const W=[["Sem finalidade definida, a plataforma passa a orientar a prática. O Referencial de 2024 pede que as tecnologias entrem com intencionalidade pedagógica.", "O uso deve responder a uma necessidade identificada pela escola, e não a uma oferta da plataforma ou a metas externas de utilização. A auditoria do TCE-PR questionou a participação docente na escolha das plataformas.", "A plataformização desloca decisões pedagógicas para lógicas algorítmicas. A pergunta verifica se a ferramenta continua a serviço dos objetivos, e não o contrário.", "O Referencial reconhece a necessidade de adaptação ao contexto, mas há desigualdades de infraestrutura e formação entre redes e escolas. O mesmo recurso pode funcionar de modos muito diferentes."], ["Avaliações externas têm potencial diagnóstico, mas costumam servir a ranqueamento e pressão (Dourado, 2007). Acompanhar o processo preserva a função pedagógica.", "O Referencial propõe interpretar dados de avaliação considerando, por exemplo, gênero e raça. Dados sem contexto levam a leituras simplistas dos resultados.", "Um dado só tem valor pedagógico se ajuda a replanejar ações e intervir (Brasil, 2024, p. 9). A pergunta verifica se a plataforma entrega isso.", "A qualidade educacional foi sendo redefinida como produto mensurável e comparável (Dourado, 2007; Freitas, 2012). A pergunta verifica se a plataforma repete esse reducionismo."], ["A Unesco orienta manter a responsabilidade humana no feedback e nas decisões sobre resultados de aprendizagem. Revisar é o primeiro passo para isso.", "O professor responde por resultados de sistemas que não projetou nem contratou. Sem poder de contestação, a responsabilidade vira responsabilização individual.", "A Unesco pede evitar que a IA faça julgamentos e previsões sobre o desenvolvimento dos estudantes. A decisão final precisa permanecer humana.", "A decisão humana só se preserva se houver possibilidade efetiva de recusar resultados inadequados. Sem isso, a autonomia é apenas formal: responsabilidade sem controle."], ["Os algoritmos costumam ser desenvolvidos por empresas privadas que não divulgam seus critérios, o que compromete o escrutínio público (Williamson; Hogan, 2020).", "Sem critérios compreensíveis, o professor não consegue validar um resultado nem explicá-lo a estudantes e famílias. O acesso aos critérios é condição da decisão humana.", "Saber quando a IA produziu ou influenciou um resultado é pré-requisito para conferi-lo e, se preciso, recusá-lo. Critério derivado das orientações da Unesco sobre validação.", "A literatura revisada alerta que resultados de IA não são neutros e podem carregar vieses e riscos. Conhecer as limitações ajuda a calibrar a confiança."], ["As plataformas capturam dados escolares e estruturam fluxos de trabalho. A informação sobre o que é coletado é o ponto de partida da proteção prevista na LGPD e no ECA Digital.", "A finalidade delimita se o uso dos dados é legítimo. A dissertação trata a proteção de dados como referência transversal ao uso de IA na escola.", "Silva (2026) descreve a extração de valor a partir dos dados educacionais. Saber com quem eles são compartilhados faz parte de proteger estudantes e escola.", "O ECA Digital (Lei 15.211/2025) reforça a proteção de dados de crianças e adolescentes. A escola precisa saber quais medidas de segurança existem."], ["O professor é apresentado como responsável por validar sistemas e revisar decisões automatizadas. Isso só é possível se os resultados puderem ser conferidos.", "Resultados de IA não são neutros e podem reproduzir vieses (Mossin et al., 2024; Noble, 2018). Identificar e corrigir erros é condição de uso responsável.", "O sistema não conhece o contexto da turma. A dissertação defende a mediação docente e a leitura contextual dos dados.", "A Unesco alerta para o risco de a IA usurpar a responsabilidade humana. A análise humana antes de decisões relevantes é a principal salvaguarda."], ["A dissertação aponta desigualdade estrutural de infraestrutura entre redes de ensino. Sem recursos de acesso adequados, a plataforma pode ampliar exclusões.", "Desigualdades de infraestrutura e de formação entre redes e escolas podem tornar a mesma plataforma vantagem para uns e obstáculo para outros.", "Bases de dados analisadas por IA carregam vieses humanos e padrões sociais (Mossin et al., 2024). Algoritmos aparentemente neutros podem reproduzir preconceitos (Noble, 2018).", "Resultados escolares se relacionam a condições socioeconômicas e familiares (Farias; Gusmão, 2023). Sem contexto, diferenças sociais aparecem como diferenças de desempenho."], ["Silva (2026) descreve uma docência ubíqua, exercida sem limites claros de tempo e espaço. Tempo compatível é condição para um uso crítico da plataforma.", "O Referencial pode ampliar a expectativa de que cada docente monitore dados e domine sistemas, sem discutir o tempo de trabalho. A pergunta verifica se a plataforma soma tarefas.", "A decisão humana depende de formação específica. A auditoria do TCE-PR também levantou questões sobre a formação para o uso das plataformas.", "O Referencial não aprofunda o suporte técnico às escolas. A auditoria do TCE-PR também apontou questões de suporte."], ["A plataformização organiza atividades escolares em torno de infraestruturas digitais. A pergunta verifica se o processo pedagógico sobrevive sem elas.", "A plataformização desloca, ainda que parcialmente, decisões pedagógicas para lógicas algorítmicas e redefine o que conta como conhecimento válido sobre a aprendizagem.", "Silva (2026) aponta a extração de valor dos dados escolares. Concentrar dados e processos em uma só plataforma amplia esse risco.", "A plataforma incorpora funções antes exclusivas do julgamento docente. A pergunta verifica onde está o limite entre apoiar e substituir."], ["Sem exportação, os dados produzidos por escolas e professores ficam retidos no fornecedor. A frente tecnológica foi assumida pelo setor privado (Passone; Vasconcelos, 2024).", "Registros educacionais são memória da escola e não deveriam depender do contrato com a plataforma. Critério do MAPEIA, derivado da discussão sobre plataformização.", "Poder trocar de plataforma sem perder o histórico mantém a escola com controle sobre seus processos. Critério do MAPEIA.", "Interoperabilidade reduz a dependência de um único fornecedor e permite combinar ferramentas conforme a necessidade pedagógica. Critério do MAPEIA."]];
+const R=["Brasil (2024), Referencial de Saberes Digitais Docentes; Paraná (2025), auditoria do TCE-PR.", "Dourado (2007); Freitas (2012); Brasil (2024, p. 9).", "Unesco (2025, p. 40); dissertação, capítulo 3.", "Williamson; Hogan (2020); Noble (2018); Unesco (2025).", "Brasil (2018), LGPD; Brasil (2025), ECA Digital; Silva (2026).", "Unesco (2025); Mossin et al. (2024); Noble (2018).", "Mossin et al. (2024); Farias; Gusmão (2023); dissertação, capítulos 2 e 3.", "Silva (2026); Brasil (2024); Paraná (2025).", "Dissertação, introdução; Silva (2026).", "Passone; Vasconcelos (2024); Selwyn (2017); critérios próprios do MAPEIA."];
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const lv=s=>s>=80?['Condições favoráveis','#2e9e5b','🟢']:s>=60?['Requer atenção','#d9b400','🟡']:s>=40?['Requer análise aprofundada','#f08a24','🟠']:['Ponto crítico','#d64545','🔴'];
+
+const qs=document.getElementById('qs');
+qs.innerHTML=D.map((d,i)=>`<section class="dim" style="--c:${COL[i]}"><div class="dh"><div class="n">${d[0]}</div><h3>${i+1}. ${d[1]}</h3><button type="button" class="bl-l noprint" onclick="openBib(${i})">📖 Biblioteca</button></div>`+
+d[2].map((q,j)=>`<div class="q"><p>${i+1}.${j+1} ${q}<button type="button" class="wy" aria-label="Por que o MAPEIA pergunta isso?">?</button><span class="tip" role="tooltip"><b>Por que o MAPEIA pergunta isso?</b>${W[i][j]}<i>Base: ${R[i]}</i></span></p><div class="row"><div><div class="five">${[1,2,3,4,5].map(v=>`<label class="o" style="--oc:${SC[v]}"><input type="radio" name="q${i}_${j}" value="${v}"><span>${v}</span></label>`).join('')}</div><div class="ends"><span>1 = menos adequado</span><span>mais adequado = 5</span></div></div><label class="o nk"><input type="radio" name="q${i}_${j}" value="0"><span>Não sei</span></label></div></div>`).join('')+'</section>').join('');
+
+document.getElementById('lib').innerHTML=D.map((d,i)=>`<details id="bib${i}" style="--c:${COL[i]}"><summary>${d[0]} ${i+1}. ${d[1]}</summary><div class="bl"><h4>Critério MAPEIA</h4><p>${B[i][0]}</p><h4>Fundamentação</h4><p>${B[i][1]}</p><h4>Material de aprofundamento</h4><ul>${B[i][2].map(m=>'<li>'+(m[1]?`<a href="${m[1]}" target="_blank" rel="noopener">${m[0]}</a>`:m[0])+'</li>').join('')}</ul></div></details>`).join('');
+const pt=document.getElementById('pt'),pf=document.getElementById('pf');
+qs.addEventListener('change',()=>{const n=qs.querySelectorAll('input:checked').length;pt.textContent=n+' de '+T+' respondidas';pf.style.width=(n/T*100)+'%';pf.style.background=n===T?'#2e9e5b':'#24408e'});
+
+function chartHTML(S){
+  const rows=S.map((s,i)=>{
+    const t=`${D[i][1]}`;
+    if(s==null)return `<div class="bc-row"><div class="bc-label">${t}</div><div class="bc-track nodata"></div></div>`;
+    const l=lv(s);
+    return `<div class="bc-row"><div class="bc-label">${t}</div><div class="bc-track"><div class="bc-fill" style="width:${s}%;background:${l[1]}"></div></div></div>`;
+  }).join('');
+  const scale='<div class="bc-row bc-scalerow"><div class="bc-label">escala 0–100</div><div class="bc-scale"><div class="bc-scale-grad"></div>'+
+    [[0,'#d64545','0 a 39 · Ponto crítico'],[40,'#f08a24','40 a 59 · Análise aprofundada'],[60,'#d9b400','60 a 79 · Requer atenção'],[80,'#2e9e5b','80 a 100 · Condições favoráveis'],[100,'','']]
+    .map(([v,c,leg])=>`<span style="left:${v}%${leg?`;--tc:${c}`:''}" ${leg?`class="bc-tick" data-leg="${leg}"`:''}>${v}</span>`).join('')+
+    '</div></div>';
+  return `<div class="barchart">${rows}${scale}</div>`;
+}
+
+function calc(){
+  const S=[],U=[];let ans=0;
+  D.forEach((d,i)=>{const v=[];let u=0;
+    d[2].forEach((_,j)=>{const x=document.querySelector(`input[name=q${i}_${j}]:checked`);if(x){ans++;if(+x.value>0)v.push(+x.value);else u++}});
+    U.push(u);S.push(v.length?v.reduce((a,b)=>a+b)/v.length*20:null)});
+  const out=document.getElementById('out');
+  if(!ans){out.innerHTML='<h2>📊 Perfil</h2><p>Responda ao menos uma questão para gerar o perfil.</p>';showTab('perfil');return}
+  const g=id=>esc(document.getElementById(id).value.trim());
+  let h=`<h2>📊 Perfil MAPEIA: ${g('name')||'plataforma sem identificação'}</h2>`;
+  const meta=[['Área',g('area')],['Finalidade',g('purpose')],['Público',g('aud')]].filter(m=>m[1]).map(m=>`<span><b>${m[0]}:</b> ${m[1]}</span>`).join('&nbsp;&nbsp;&nbsp;');
+  if(meta)h+=`<p class="mut">${meta}</p>`;
+  if(ans<T)h+=`<div class="al" style="--c:#8a94aa">Você respondeu ${ans} de ${T} questões. Dimensões sem respostas válidas ficam sem classificação.</div>`;
+
+  h+=chartHTML(S);
+
+  const P=D.map((_,i)=>i).filter(i=>(S[i]!=null&&S[i]<60)||U[i]>=2).sort((a,b)=>(S[a]??0)-(S[b]??0));
+  if(P.length){
+    let alerts='';
+    P.forEach(i=>{
+      const s=S[i],l=s==null?['Sem classificação','#8a94aa']:lv(s);
+      let m=s!=null&&s<60?`${l[0]} (${Math.round(s)}/100). Que tal compreendermos um pouco melhor este aspecto?`:'';
+      if(U[i]>=2)m+=` ${U[i]} respostas “Não sei”: a falta de informação também é um sinal a investigar.`;
+      alerts+=`<div class="al" style="--c:${l[1]}"><b>${D[i][1]}</b>: ${m} <button type="button" onclick="openBib(${i})" style="background:none;border:0;color:var(--blue);font-weight:800;cursor:pointer;text-decoration:underline;padding:0;font:inherit">Aprofundar na Biblioteca</button></div>`});
+    h+=`<details class="prio"><summary>⚠️ ${P.length} ${P.length>1?'pontos requerem':'ponto requer'} análise prioritária</summary><div class="prio-body">${alerts}</div></details>`;
+  }else{
+    h+='<p class="mut" style="margin-top:18px">🟢 Nenhuma dimensão abaixo de 60. Mesmo assim, use as reflexões abaixo antes de decidir sobre o uso da plataforma.</p>';
+  }
+
+  h+='<h3 style="margin-top:22px">💭 Reflexão docente</h3><div class="refl"><p>Que informações ainda preciso obter?</p><p>Quais resultados automatizados precisam de conferência?</p><p>Que condições deveriam existir para o uso?</p><p>Quais decisões devem permanecer sob responsabilidade humana?</p></div>';
+  out.innerHTML=h;showTab('perfil');
+}
+
+
+const TABS=['plataformizacao','inicio','como','refletir','perfil','biblioteca'];
+function showTab(name){
+  TABS.forEach(t=>{const p=document.getElementById('tab-'+t);if(p)p.classList.toggle('active',t===name)});
+  document.querySelectorAll('.tab-btn').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===name?'true':'false'));
+  document.querySelector('main').scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+
+let lastScrollY=window.scrollY;
+function showTabsBar(){document.querySelector('.tabs').classList.remove('hide');document.getElementById('tabsToggle').style.display='none'}
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  const bar=document.querySelector('.tabs'),toggle=document.getElementById('tabsToggle');
+  if(y>lastScrollY && y>90){bar.classList.add('hide');toggle.style.display='block'}
+  else if(y<lastScrollY || y<=90){showTabsBar()}
+  lastScrollY=Math.max(0,y);
+},{passive:true});
+
+</script>
+</body>
+</html>
